@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
             })),
         // '/todo/detail': (context) => TodoDetailScreen(),
         '/selection': (context) => SelectionHomeScreen(),
-        '/animation_move': (context) => AnimationMoveHomeScreen()
+        '/animation_move': (context) => AnimationMoveHomeScreen(),
+        '/state_sample': (context) => StateSampleHomeScreen(),
       },
       theme: ThemeData(primarySwatch: Colors.green),
       // home: HomeScreen(),
@@ -161,6 +162,12 @@ class HomeScreen extends StatelessWidget {
                   child: Text('Animation Move'),
                   onPressed: () {
                     Navigator.pushNamed(context, '/animation_move');
+                  },
+                ),
+                RaisedButton(
+                  child: Text('State Sample'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/state_sample');
                   },
                 )
               ]),
@@ -409,5 +416,64 @@ class AnimationMovedScreen extends StatelessWidget {
                 child: Image.network('https://picsum.photos/200?image=2'),
               ),
             )));
+  }
+}
+
+class StateSampleHomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('State Sample')),
+        body: Center(child: StateSample()));
+  }
+}
+
+class StateSample extends StatefulWidget {
+  @override
+  _StateSampleState createState() => _StateSampleState();
+}
+
+class _StateSampleState extends State<StateSample> {
+  bool _active = false;
+
+  @override
+  Widget build(BuildContext context) {
+
+    void _handleTap() {
+      setState(() {
+        _active = !_active;
+      });
+    };
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GestureDetector(
+            onTap: _handleTap,
+            child: Container(
+              width: 200,
+              height: 80,
+              decoration: BoxDecoration(
+                color: _active ? Colors.lightGreen : Colors.grey
+              ),
+              child: Center(
+                  child: Text( _active ? 'Active': "Inactive",
+                    style: TextStyle( color: Colors.white,
+                    fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+              )
+            )
+        ),
+        RaisedButton(
+          child: Text('Go To Home'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        )
+      ],
+    );
+
   }
 }
