@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
               );
             })),
         // '/todo/detail': (context) => TodoDetailScreen(),
-        '/selection': (context) => SelectionHomeScreen()
+        '/selection': (context) => SelectionHomeScreen(),
+        '/animation_move': (context) => AnimationMoveHomeScreen()
       },
       theme: ThemeData(primarySwatch: Colors.green),
       // home: HomeScreen(),
@@ -149,6 +150,12 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, '/selection');
                 },
+              ),
+              RaisedButton(
+                child: Text('Animation Move'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/animation_move');
+                },
               )
             ],
           ),
@@ -261,7 +268,7 @@ class TodoDetailScreen extends StatelessWidget {
               RaisedButton(
                 child: Text('Go To Home'),
                 onPressed: () {
-                  Navigator.pop(context, '/');
+                  Navigator.pop(context);
                 },
               )
             ],
@@ -305,7 +312,7 @@ class SelectionHomeScreen extends StatelessWidget {
             RaisedButton(
               child: Text('Go To Home'),
               onPressed: () {
-                Navigator.pop(context, '/');
+                Navigator.pop(context);
               },
             )
           ],
@@ -349,5 +356,56 @@ class SelectionDetailScreen extends StatelessWidget {
             //     ))
           ],
         ));
+  }
+}
+
+class AnimationMoveHomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Animation Move')),
+        body: Column(
+          children: [
+            Hero(
+              tag: "hero_tag1",
+              child: Image.network('https://picsum.photos/200?image=2'),
+            ),
+            RaisedButton(
+              child: Text('Go To Detail'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context)=> AnimationMovedScreen())
+                );
+              },
+            ),
+            RaisedButton(
+              child: Text('Go To Home'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        ));
+  }
+}
+
+class AnimationMovedScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child:Center(
+              child:
+              Hero(
+                tag: "hero_tag1",
+                child: Image.network('https://picsum.photos/200?image=2'),
+              ),
+            )
+        )
+    );
   }
 }
