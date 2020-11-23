@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
               );
             })),
         // '/todo/detail': (context) => TodoDetailScreen(),
+        '/selection': (context) => SelectionHomeScreen()
       },
       theme: ThemeData(primarySwatch: Colors.green),
       // home: HomeScreen(),
@@ -142,6 +143,12 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, '/todo');
                 },
+              ),
+              RaisedButton(
+                child: Text('Selection'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/selection');
+                },
               )
             ],
           ),
@@ -234,7 +241,7 @@ class TodoDetailScreen extends StatelessWidget {
   TodoDetailScreen({Key key, @required Todo todo})
       : assert(todo != null),
         this._todo = todo
-        // super(key, key)
+  // super(key, key)
   ;
 
   @override
@@ -259,6 +266,88 @@ class TodoDetailScreen extends StatelessWidget {
               )
             ],
           ),
+        ));
+  }
+}
+
+class SelectionButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+        onPressed: () {
+          return _handlePress(context);
+        },
+        child: Text('オプションを選択'));
+  }
+
+  Future<void> _handlePress(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SelectionDetailScreen()),
+    );
+
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(result)))
+    ;
+
+  }
+}
+
+class SelectionHomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Selections')),
+        body: Column(
+          children: [
+            SelectionButton(),
+            RaisedButton(
+              child: Text('Go To Home'),
+              onPressed: () {
+                Navigator.pop(context, '/');
+              },
+            )
+          ],
+        ));
+  }
+}
+
+class SelectionDetailScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Selections')),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+                padding: EdgeInsets.all(10),
+                child: RaisedButton(
+                  child: Text('選択肢1'),
+                  onPressed: () {
+                    // return
+                    Navigator.pop(context, '選択肢1');
+                  },
+                )),
+            Padding(
+                padding: EdgeInsets.all(10),
+                child: RaisedButton(
+                  child: Text('選択肢2'),
+                  onPressed: () {
+                    // return
+                    Navigator.pop(context, '選択肢2');
+                  },
+                )),
+            // Padding(
+            //     padding: EdgeInsets.all(10),
+            //     child: RaisedButton(
+            //       Text('選択肢2'),
+            //       onPressed: () {
+            //         // return
+            //       },
+            //     ))
+          ],
         ));
   }
 }
