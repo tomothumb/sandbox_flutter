@@ -8,10 +8,37 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter app',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomeScreen(),
+        '/second': (context) => SecondScreen(),
+        '/todo': (context) => TodoListScreen(
+                todos: List<Todo>.generate(20, (index) {
+              return Todo(
+                title: '$index　のTITLE',
+                description: '$index　のDESCRIPTION',
+              );
+            })),
+        // '/todo/detail': (context) => TodoDetailScreen(),
+      },
+      theme: ThemeData(primarySwatch: Colors.green),
+      // home: HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     final stars = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.star, color: Colors.green,),
+        Icon(
+          Icons.star,
+          color: Colors.green,
+        ),
         Icon(Icons.star, color: Colors.green),
         Icon(Icons.star, color: Colors.green),
         Icon(Icons.star),
@@ -30,13 +57,11 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                   letterSpacing: 0.5,
-                  fontFamily: 'Roboto'
-              ),
+                  fontFamily: 'Roboto'),
             ),
             stars,
           ],
-        )
-    );
+        ));
 
     final descTextStyle = TextStyle(
       fontWeight: FontWeight.bold,
@@ -71,11 +96,8 @@ class MyApp extends StatelessWidget {
                     Text('Re')
                   ],
                 ),
-
               ],
-            )
-        )
-    );
+            )));
 
     final leftcolumn = Container(
         padding: EdgeInsets.fromLTRB(10, 20, 30, 40),
@@ -87,40 +109,156 @@ class MyApp extends StatelessWidget {
             rating,
             iconList,
           ],
-        )
-    );
+        ));
 
-    final sample = Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            child: leftcolumn,
-            width: 200,
-          ),
-          Image.asset('images/150x150.png'),
-        ]
-    );
+    final sample = Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Container(
+        child: leftcolumn,
+        width: 200,
+      ),
+      Image.asset('images/150x150.png'),
+    ]);
 
-    return MaterialApp(
-        title: 'Flutter app',
-        theme: ThemeData(
-            primarySwatch: Colors.blue
-        ),
-        home: Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  sample,
-                  Text('Flutter app',
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .display1)
-                ],
+    return Scaffold(
+        appBar: AppBar(title: Text('home')),
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              sample,
+              RaisedButton(
+                child: Text('NextPage'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/second');
+                  // Navigator.push(context, MaterialPageRoute(
+                  //     builder: (context) {
+                  //       return SecondScreen();
+                  //     }
+                  // ));
+                },
               ),
-            )
+              RaisedButton(
+                child: Text('Todos'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/todo');
+                },
+              )
+            ],
+          ),
+        ));
+  }
+}
+
+class SecondScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Second Page')),
+        body: Center(
+          child: Column(
+            children: [
+              Text('second page'),
+              RaisedButton(
+                child: Text('Go To Home'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          ),
+        ));
+  }
+}
+
+class Todo {
+  final String title;
+  final String description;
+
+  Todo({@required this.title, @required this.description})
+      : assert(title != null),
+        assert(description != null);
+}
+
+class TodoListScreen extends StatelessWidget {
+  final List<Todo> _todos;
+
+  TodoListScreen({Key key, @required List<Todo> todos})
+      : assert(todos != null),
+        this._todos = todos,
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Todos')),
+        body: ListView.builder(
+          itemCount: _todos.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(_todos[index].title),
+              onTap: () {
+                return Navigator.push(context,
+                    MaterialPageRoute(builder: (context) {
+                  return TodoDetailScreen(todo: _todos[index]);
+                }));
+              },
+            );
+          },
         )
-    );
+        // Center(
+        //   child: Column(
+        //     children: [
+        //       Text('Todos'),
+        //       RaisedButton(
+        //         child: Text('Go To Detail'),
+        //         onPressed: () {
+        //           Navigator.pushNamed(context, '/todo/detail');
+        //         },
+        //       ),
+        //       RaisedButton(
+        //         child: Text('Go To Home'),
+        //         onPressed: () {
+        //           Navigator.pop(context);
+        //         },
+        //       ),
+        //     ],
+        //   ),
+        // )
+        );
+  }
+}
+
+class TodoDetailScreen extends StatelessWidget {
+  final Todo _todo;
+
+  TodoDetailScreen({Key key, @required Todo todo})
+      : assert(todo != null),
+        this._todo = todo
+        // super(key, key)
+  ;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text(_todo.title)),
+        body: Center(
+          child: Column(
+            children: [
+              Text(_todo.description),
+              RaisedButton(
+                child: Text('Go To Todos'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              RaisedButton(
+                child: Text('Go To Home'),
+                onPressed: () {
+                  Navigator.pop(context, '/');
+                },
+              )
+            ],
+          ),
+        ));
   }
 }
