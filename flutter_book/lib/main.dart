@@ -128,35 +128,42 @@ class HomeScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               sample,
-              RaisedButton(
-                child: Text('NextPage'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/second');
-                  // Navigator.push(context, MaterialPageRoute(
-                  //     builder: (context) {
-                  //       return SecondScreen();
-                  //     }
-                  // ));
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  RaisedButton(
+                    child: Text('NextPage'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/second');
+                      // Navigator.push(context, MaterialPageRoute(
+                      //     builder: (context) {
+                      //       return SecondScreen();
+                      //     }
+                      // ));
+                    },
+                  ),
+                  RaisedButton(
+                    child: Text('Todos'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/todo');
+                    },
+                  ),
+                  RaisedButton(
+                    child: Text('Selection'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/selection');
+                    },
+                  ),
+                ],
               ),
-              RaisedButton(
-                child: Text('Todos'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/todo');
-                },
-              ),
-              RaisedButton(
-                child: Text('Selection'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/selection');
-                },
-              ),
-              RaisedButton(
-                child: Text('Animation Move'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/animation_move');
-                },
-              )
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                RaisedButton(
+                  child: Text('Animation Move'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/animation_move');
+                  },
+                )
+              ]),
             ],
           ),
         ));
@@ -295,9 +302,7 @@ class SelectionButton extends StatelessWidget {
 
     ScaffoldMessenger.of(context)
       ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(result)))
-    ;
-
+      ..showSnackBar(SnackBar(content: Text(result)));
   }
 }
 
@@ -375,8 +380,8 @@ class AnimationMoveHomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context)=> AnimationMovedScreen())
-                );
+                    MaterialPageRoute(
+                        builder: (context) => AnimationMovedScreen()));
               },
             ),
             RaisedButton(
@@ -395,17 +400,14 @@ class AnimationMovedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
-            child:Center(
-              child:
-              Hero(
+            child: Center(
+              child: Hero(
                 tag: "hero_tag1",
                 child: Image.network('https://picsum.photos/200?image=2'),
               ),
-            )
-        )
-    );
+            )));
   }
 }
