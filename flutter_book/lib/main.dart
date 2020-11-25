@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './assetSample.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/selection': (context) => SelectionHomeScreen(),
         '/animation_move': (context) => AnimationMoveHomeScreen(),
         '/state_sample': (context) => StateSampleHomeScreen(),
+        '/asset_sample': (context) => AssetSampleScreen(),
       },
       theme: ThemeData(primarySwatch: Colors.green),
       // home: HomeScreen(),
@@ -119,8 +121,9 @@ class HomeScreen extends StatelessWidget {
         child: leftcolumn,
         width: 200,
       ),
-      Image.asset('images/150x150.png'),
+      Image(image:AssetImage('assets/images/150x150.png')),
     ]);
+
 
     return Scaffold(
         appBar: AppBar(title: Text('home')),
@@ -168,6 +171,12 @@ class HomeScreen extends StatelessWidget {
                   child: Text('State Sample'),
                   onPressed: () {
                     Navigator.pushNamed(context, '/state_sample');
+                  },
+                ),
+                RaisedButton(
+                  child: Text('Asset Sample'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/asset_sample');
                   },
                 )
               ]),
