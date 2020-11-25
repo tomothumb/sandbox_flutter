@@ -438,7 +438,6 @@ class _StateSampleState extends State<StateSample> {
 
   @override
   Widget build(BuildContext context) {
-
     void _handleTap(bool newValue) {
       setState(() {
         _active = newValue;
@@ -460,7 +459,6 @@ class _StateSampleState extends State<StateSample> {
         )
       ],
     );
-
   }
 }
 
@@ -475,13 +473,13 @@ class StateChildWidget extends StatelessWidget {
         // super(key: key)
   ;
 
-
   @override
   Widget build(BuildContext context) {
 
     void _handleTap(){
       onChanged(!active);
     }
+
     return GestureDetector(
         onTap: _handleTap,
         child: Container(
