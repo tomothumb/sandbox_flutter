@@ -439,32 +439,18 @@ class _StateSampleState extends State<StateSample> {
   @override
   Widget build(BuildContext context) {
 
-    void _handleTap() {
+    void _handleTap(bool newValue) {
       setState(() {
-        _active = !_active;
+        _active = newValue;
       });
     };
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        GestureDetector(
-            onTap: _handleTap,
-            child: Container(
-              width: 200,
-              height: 80,
-              decoration: BoxDecoration(
-                color: _active ? Colors.lightGreen : Colors.grey
-              ),
-              child: Center(
-                  child: Text( _active ? 'Active': "Inactive",
-                    style: TextStyle( color: Colors.white,
-                    fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-              )
-            )
+        StateChildWidget(
+          onChanged: _handleTap,
+          active: _active,
         ),
         RaisedButton(
           child: Text('Go To Home'),
@@ -475,5 +461,45 @@ class _StateSampleState extends State<StateSample> {
       ],
     );
 
+  }
+}
+
+class StateChildWidget extends StatelessWidget {
+
+  final bool active;
+  final ValueChanged<bool> onChanged;
+
+  StateChildWidget({Key kwy, this.active: false, @required this.onChanged})
+      : assert(active != null),
+        assert(onChanged != null)
+        // super(key: key)
+  ;
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    void _handleTap(){
+      onChanged(!active);
+    }
+    return GestureDetector(
+        onTap: _handleTap,
+        child: Container(
+            width: 200,
+            height: 80,
+            decoration: BoxDecoration(
+              color: active ? Colors.green[700] : Colors.red[200]
+            ),
+            child:Center(
+                child: Text(
+                  active ? 'Active': "Inactive",
+                  style: TextStyle( color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+            )
+        )
+    );
   }
 }
