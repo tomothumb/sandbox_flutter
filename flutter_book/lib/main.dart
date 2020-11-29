@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import './assetSample.dart';
+import './tweenSample.dart';
+import './advancedSample.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
         '/animation_move': (context) => AnimationMoveHomeScreen(),
         '/state_sample': (context) => StateSampleHomeScreen(),
         '/asset_sample': (context) => AssetSampleScreen(),
+        '/tween_sample': (context) => TweenSampleScreen(),
+        '/advanced_sample': (context) => AdvancedSampleScreen(),
       },
       theme: ThemeData(primarySwatch: Colors.green),
       // home: HomeScreen(),
@@ -121,9 +125,8 @@ class HomeScreen extends StatelessWidget {
         child: leftcolumn,
         width: 200,
       ),
-      Image(image:AssetImage('assets/images/150x150.png')),
+      Image(image: AssetImage('assets/images/150x150.png')),
     ]);
-
 
     return Scaffold(
         appBar: AppBar(title: Text('home')),
@@ -173,13 +176,37 @@ class HomeScreen extends StatelessWidget {
                     Navigator.pushNamed(context, '/state_sample');
                   },
                 ),
-                RaisedButton(
-                  child: Text('Asset Sample'),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/asset_sample');
-                  },
-                )
               ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+
+                  RaisedButton(
+                    child: Text('Asset Sample'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/asset_sample');
+                    },
+                  ),
+                  RaisedButton(
+                    child: Text('Tween Sample'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/tween_sample');
+                    },
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+
+                  RaisedButton(
+                    child: Text('Advanced Sample'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/advanced_sample');
+                    },
+                  )
+                ],
+              ),
             ],
           ),
         ));
@@ -451,7 +478,9 @@ class _StateSampleState extends State<StateSample> {
       setState(() {
         _active = newValue;
       });
-    };
+    }
+
+    ;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -472,20 +501,18 @@ class _StateSampleState extends State<StateSample> {
 }
 
 class StateChildWidget extends StatelessWidget {
-
   final bool active;
   final ValueChanged<bool> onChanged;
 
   StateChildWidget({Key kwy, this.active: false, @required this.onChanged})
       : assert(active != null),
         assert(onChanged != null)
-        // super(key: key)
+  // super(key: key)
   ;
 
   @override
   Widget build(BuildContext context) {
-
-    void _handleTap(){
+    void _handleTap() {
       onChanged(!active);
     }
 
@@ -495,18 +522,15 @@ class StateChildWidget extends StatelessWidget {
             width: 200,
             height: 80,
             decoration: BoxDecoration(
-              color: active ? Colors.green[700] : Colors.red[200]
-            ),
-            child:Center(
+                color: active ? Colors.green[700] : Colors.red[200]),
+            child: Center(
                 child: Text(
-                  active ? 'Active': "Inactive",
-                  style: TextStyle( color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-            )
-        )
-    );
+              active ? 'Active' : "Inactive",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ))));
   }
 }
