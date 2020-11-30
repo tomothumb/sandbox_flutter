@@ -5,33 +5,53 @@ import 'advancedSampleSub.dart';
 import 'advancedSampleSubNoRef.dart';
 
 class AdvancedSampleScreen extends StatelessWidget {
+
+  GlobalKey<MyWidgetState> myWidgetStateKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
-    return MyWidget(title:'Advanced test');
+    debugPrint('Advanced root is built');
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Advanced Sample'),
+      ),
+      body: Center(
+          child: Column(
+            children: <Widget>[
+              Text('111'),
+              MyWidget(key: myWidgetStateKey),
+              advancedSampleSubNoRef()
+            ],
+          )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          myWidgetStateKey.currentState.hundleDataIncrement();
+        },
+        tooltip: "Increment",
+        child: Text('Add'),
+      ),
+      backgroundColor: Colors.lightGreen,
+    );
   }
 }
 
 class MyWidget extends StatefulWidget {
-  final String title;
 
-  _MyWidgetState _myWidgetState;
-  _MyWidgetState get state => _myWidgetState;
-
-  MyWidget({Key key, this.title}) : super(key: key);
+  MyWidget({Key key}) : super(key: key);
 
   @override
-  _MyWidgetState createState() {
-    _myWidgetState = _MyWidgetState();
-    return _myWidgetState;
+  MyWidgetState createState() {
+    return MyWidgetState();
   }
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class MyWidgetState extends State<MyWidget> {
 
   ImportantData importantData = ImportantData();
-  GlobalKey<AdvancedSampleSubState> advancedSampleSubStateGlobalKey = GlobalKey();
 
-  _hundleDataIncrement(){
+  hundleDataIncrement(){
     setState((){
       importantData.increment();
     });
@@ -42,28 +62,11 @@ class _MyWidgetState extends State<MyWidget> {
 
     debugPrint('MyWidget is built');
 
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-            child: Column(
-              children: <Widget>[
-                Text('111'),
-                Text('AdvancedSampleSubState Direct Sample: ${advancedSampleSubStateGlobalKey.currentState?.widget?.importantData?.count ?? "empty"}'),
-                AdvancedSampleSub(
-                    key: advancedSampleSubStateGlobalKey,
-                    importantData: importantData),
-                advancedSampleSubNoRef()
-              ],
-            )
-        ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _hundleDataIncrement,
-        tooltip: "Increment",
-        child: Text('Add'),
-      ),
-      backgroundColor: Colors.lightGreen,
+    return Column(
+      children: <Widget>[
+        Text('AdvancedSampleSubState Direct Sample: ${importantData?.count ?? "empty"}'),
+        AdvancedSampleSub(importantData: importantData),
+      ],
     );
   }
 }

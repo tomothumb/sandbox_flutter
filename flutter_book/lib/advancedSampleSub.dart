@@ -24,7 +24,6 @@ class AdvancedSampleSubState extends State<AdvancedSampleSub> {
   Widget build(BuildContext context) {
     debugPrint('Sub Widget');
 
-    final MyWidget myWidget = context.findAncestorWidgetOfExactType();
 
     return Container(
       height:150,
@@ -34,7 +33,7 @@ class AdvancedSampleSubState extends State<AdvancedSampleSub> {
       child: Column(
         children: <Widget>[
           Text('Sub Widget'),
-          Text('Parent Direct Access: ${myWidget.state?.importantData?.count ?? "empty" }'),
+          Text(_importantData?.count.toString()),
           AdvancedSampleSub2(importantData:_importantData)
 
         ],
