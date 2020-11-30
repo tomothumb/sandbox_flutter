@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_book/advancedSample.dart';
 
 import 'advancedSampleData.dart';
 import 'advancedSampleSub2.dart';
@@ -12,16 +13,19 @@ class AdvancedSampleSub extends StatefulWidget {
       super(key: key);
 
   @override
-  _AdvancedSampleSubState createState() => _AdvancedSampleSubState();
+  AdvancedSampleSubState createState() => AdvancedSampleSubState();
 }
 
-class _AdvancedSampleSubState extends State<AdvancedSampleSub> {
+class AdvancedSampleSubState extends State<AdvancedSampleSub> {
 
   ImportantData get _importantData => widget.importantData;
 
   @override
   Widget build(BuildContext context) {
     debugPrint('Sub Widget');
+
+    final MyWidget myWidget = context.findAncestorWidgetOfExactType();
+
     return Container(
       height:150,
       decoration: BoxDecoration(
@@ -30,6 +34,7 @@ class _AdvancedSampleSubState extends State<AdvancedSampleSub> {
       child: Column(
         children: <Widget>[
           Text('Sub Widget'),
+          Text('Parent Direct Access: ${myWidget.state?.importantData?.count ?? "empty" }'),
           AdvancedSampleSub2(importantData:_importantData)
 
         ],

@@ -14,15 +14,22 @@ class AdvancedSampleScreen extends StatelessWidget {
 class MyWidget extends StatefulWidget {
   final String title;
 
+  _MyWidgetState _myWidgetState;
+  _MyWidgetState get state => _myWidgetState;
+
   MyWidget({Key key, this.title}) : super(key: key);
 
   @override
-  _MyWidgetState createState() => _MyWidgetState();
+  _MyWidgetState createState() {
+    _myWidgetState = _MyWidgetState();
+    return _myWidgetState;
+  }
 }
 
 class _MyWidgetState extends State<MyWidget> {
 
   ImportantData importantData = ImportantData();
+  GlobalKey<AdvancedSampleSubState> advancedSampleSubStateGlobalKey = GlobalKey();
 
   _hundleDataIncrement(){
     setState((){
@@ -43,7 +50,10 @@ class _MyWidgetState extends State<MyWidget> {
             child: Column(
               children: <Widget>[
                 Text('111'),
-                AdvancedSampleSub(importantData: importantData),
+                Text('AdvancedSampleSubState Direct Sample: ${advancedSampleSubStateGlobalKey.currentState?.widget?.importantData?.count ?? "empty"}'),
+                AdvancedSampleSub(
+                    key: advancedSampleSubStateGlobalKey,
+                    importantData: importantData),
                 advancedSampleSubNoRef()
               ],
             )
