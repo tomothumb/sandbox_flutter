@@ -4,6 +4,8 @@ import 'advancedSampleData.dart';
 import 'advancedSampleSub2.dart';
 
 class advancedSampleSubNoRef extends StatelessWidget {
+  const advancedSampleSubNoRef({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     debugPrint('NoRef Widget');

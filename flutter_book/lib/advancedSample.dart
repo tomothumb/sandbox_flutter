@@ -21,7 +21,7 @@ class AdvancedSampleScreen extends StatelessWidget {
             children: <Widget>[
               Text('111'),
               MyWidget(key: myWidgetStateKey),
-              advancedSampleSubNoRef()
+              const advancedSampleSubNoRef()
             ],
           )
       ),
@@ -50,6 +50,13 @@ class MyWidget extends StatefulWidget {
 class MyWidgetState extends State<MyWidget> {
 
   ImportantData importantData = ImportantData();
+  AdvancedSampleSub advancedSampleSub;
+
+  @override
+  void initState() {
+    super.initState();
+    advancedSampleSub = AdvancedSampleSub(importantData: importantData);
+  }
 
   hundleDataIncrement(){
     setState((){
@@ -65,7 +72,7 @@ class MyWidgetState extends State<MyWidget> {
     return Column(
       children: <Widget>[
         Text('AdvancedSampleSubState Direct Sample: ${importantData?.count ?? "empty"}'),
-        AdvancedSampleSub(importantData: importantData),
+        advancedSampleSub,
       ],
     );
   }
