@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './assetSample.dart';
 import './tweenSample.dart';
 import './advancedSample.dart';
+import './blocSample.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/asset_sample': (context) => AssetSampleScreen(),
         '/tween_sample': (context) => TweenSampleScreen(),
         '/advanced_sample': (context) => AdvancedSampleScreen(),
+        '/bloc_sample': (context) => BlocSampleScreen(),
       },
       theme: ThemeData(primarySwatch: Colors.green),
       // home: HomeScreen(),
@@ -130,7 +132,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(title: Text('home')),
-        body: Center(
+        body: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -204,9 +206,17 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, '/advanced_sample');
                     },
+                  ),
+                  RaisedButton(
+                    child: Text('BLoC Sample'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/bloc_sample');
+                    },
                   )
                 ],
               ),
+
+
             ],
           ),
         ));
