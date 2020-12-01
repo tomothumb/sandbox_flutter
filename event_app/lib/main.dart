@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/event_list/repository_firestore.dart';
+import 'bloc/event_list/bloc.dart';
+import 'view/eventlist.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,7 +27,14 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: BlocProvider<EventListBloc>(
+        create: (BuildContext context) {
+          return EventListBloc(
+              eventListRepository: FirestoreEventListRepository());
+        },
+        child: EventListScreen(),
+      ),
+      // home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
