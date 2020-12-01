@@ -16,14 +16,13 @@ class AdvancedSampleScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Advanced Sample'),
       ),
-      body: Center(
-          child: Column(
-            children: <Widget>[
-              Text('111'),
-              MyWidget(key: myWidgetStateKey),
-              const advancedSampleSubNoRef()
-            ],
-          )
+      body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Text('111'),
+                MyWidget(key: myWidgetStateKey),
+              ],
+            )
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -69,11 +68,17 @@ class MyWidgetState extends State<MyWidget> {
 
     debugPrint('MyWidget is built');
 
-    return Column(
-      children: <Widget>[
-        Text('AdvancedSampleSubState Direct Sample: ${importantData?.count ?? "empty"}'),
-        advancedSampleSub,
-      ],
+    return MyInherited(
+        importantData: importantData,
+        child: Center(
+          child:Column(
+            children: <Widget>[
+              Text('AdvancedSampleSubState Direct Sample: ${importantData?.count ?? "empty"}'),
+              advancedSampleSub,
+              const advancedSampleSubNoRef()
+            ],
+          )
+        )
     );
   }
 }
