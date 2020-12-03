@@ -1,6 +1,8 @@
 import 'package:event_app/bloc/event_list/event.dart';
 import 'package:event_app/bloc/event_list/state.dart';
 import 'package:event_app/model/event.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,6 +10,13 @@ import '../bloc/event_list/bloc.dart';
 import '../bloc/event_list/repository_firestore.dart';
 
 class EventListScreen extends StatelessWidget {
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
+  EventListScreen({Key key,  this.analytics, this.observer})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final eventListBloc = BlocProvider.of<EventListBloc>(context);
