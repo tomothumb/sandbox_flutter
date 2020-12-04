@@ -2,15 +2,14 @@ import 'package:event_app/bloc/authentication/bloc.dart';
 import 'package:event_app/bloc/authentication/event.dart';
 import 'package:event_app/bloc/authentication/repository_fireauth.dart';
 import 'package:event_app/bloc/authentication/state.dart';
-import 'package:event_app/bloc/event_list/event.dart';
-import 'package:event_app/bloc/event_list/state.dart';
-import 'package:event_app/model/event.dart';
+import 'package:event_app/bloc/signin/bloc.dart';
+import 'package:event_app/bloc/signin/repository_firebase.dart';
+import 'package:event_app/view/signin.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/event_list/bloc.dart';
 import '../bloc/event_list/repository_firestore.dart';
 import 'eventlist.dart';
 
@@ -28,16 +27,31 @@ class AuthScreen extends StatelessWidget {
 
     final authenticationRepository = FirestoreAuthenticationRepository();
 
-    return BlocProvider<AuthenticationBloc>(
-      create: (context) {
-        return AuthenticationBloc(authRepository: authenticationRepository)
-            ..add(AppStarted());
-      },
-      child: AuthScreenContent(
-        analytics: analytics,
-        observer: observer,
-      )
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthenticationBloc>(
+            create: (BuildContext context) => AuthenticationBloc(authRepository: authenticationRepository)..add(AppStarted()),
+          ),
+          BlocProvider<SignInBloc>(
+            create: (BuildContext context) => SignInBloc(signInRepository: FirebaseSignInRepository()),
+          ),
+        ],
+        child: AuthScreenContent(
+          analytics: analytics,
+          observer: observer,
+        )
     );
+
+    // return BlocProvider<AuthenticationBloc>(
+    //   create: (context) {
+    //     return AuthenticationBloc(authRepository: authenticationRepository)
+    //         ..add(AppStarted());
+    //   },
+    //   child: AuthScreenContent(
+    //     analytics: analytics,
+    //     observer: observer,
+    //   )
+    // );
 
   }
 }
@@ -55,12 +69,10 @@ class AuthScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = BlocProvider.of<AuthenticationBloc>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Auth"),
-      ),
-      body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        // bloc: authBloc,
+    print('auth');
+
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      // bloc: authBloc,
         builder: (context, state) {
           if(state is AuthenticationInProgress){
             return Center(
@@ -75,7 +87,10 @@ class AuthScreenContent extends StatelessWidget {
 
           if(state is AuthenticationFailure){
             return Center(
-              child: Text('Sign in'),
+              child: SignInScreen(
+                analytics: analytics,
+                observer: observer,
+              ),
             );
             // return SignInScreen();;
           }
@@ -83,8 +98,6 @@ class AuthScreenContent extends StatelessWidget {
           return Container();
 
         }
-      )
-
     );
   }
 }
