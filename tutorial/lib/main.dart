@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tutorial/views/webview.dart';
+
+import 'views/frame.dart';
 // import 'package:english_words/english_words.dart';
 
 
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.red,
       ),
-      home: MyHomePage(),
+      home: FramePage(),
     );
   }
 }
